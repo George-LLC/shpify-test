@@ -1,0 +1,216 @@
+{% style %}
+    .child {
+        z-index: 1;
+        display: none
+    }
+    .menu__link:hover ~.child, .child:hover{
+        display: block
+    }
+    .child < li {
+        position: relative;
+    }
+    .child {
+        top: 100%;
+    }
+    .grandchild {
+        left: 100%;
+    }
+    .child, .grandchild {
+        display: none;
+        background: #E5E5E5;
+        position: absolute;
+        padding: 10px;
+        border-radius: 2px;
+    }
+
+    .child > li:nth-child(2), .grandchild > li:nth-child(2) {
+        margin-top: 10px;
+    }
+
+    .child > li > a, .grandchild > li > a {
+        text-decoration: unset;
+        font-size: 18px;
+        color: #000000;
+    }
+
+    .child > li:hover .grandchild {
+        display: block;
+    }
+    .grandchild < li {
+        position: relative;
+    }
+    .grandchild < li:not(:empty):before {
+        content: attr(data-alt);
+        display: block;
+    }
+
+
+{%endstyle%}
+{% assign logo_max_width=section.settings.logo_max_width %}
+{% assign logo_max_height=section.settings.logo_max_height %}
+
+<header class="header">
+    <div class="header__container">
+        <div class="mob-icon">
+            <img src="img/mob/menu-icon.svg" alt="menu-icon">
+        </div>
+        <a href="#" class="header-logo">
+            {% capture image_size %}{{ logo_max_width | escape }}x{{ logo_max_height | escape }}{% endcapture %}
+            <img src="{{ section.settings.logo | img_url: image_size }}" srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo">
+        </a>
+        <a href="#" class="header-logo-mob">
+            {% capture image_size %}{{ logo_max_width | escape }}x{{ logo_max_height | escape }}{% endcapture %}
+            <img src="{{ section.settings.logo | img_url: image_size }}" srcset="{{ section.settings.logo | img_url: image_size }} 1x" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo">
+        </a>
+        <ul class="menu__list menu__list-mob">
+            <li>
+                <a href="#" class="menu__link karzinka">
+                    <img src="{{ 'karzinka' | append: '.svg' | asset_url }}" alt="karzinka">
+                </a>
+                <div class="menu__link_span">8</div>
+            </li>
+        </ul>
+        <div class="header__menu menu">
+            <nav class="menu__body">
+                <ul class="menu__list">
+
+
+                    {% for link in linklists.main-menu.links %}
+                        <li {% if link.active %}class="active {% if link.child_active %}child-active{% endif %}"{% endif %}><a class="menu__link" href="{{ link.url }}">{{ link.title }}</a>
+                            {% if link.links != blank %}
+                                <ul class="child">
+                                    {% for child_link in link.links %}
+                                        <li {% if child_link.active %}class="active {% if child_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ child_link.url }}">{{ child_link.title }}</a>
+                                            {% if child_link.links != blank %}
+                                                <ul class="grandchild">
+                                                    {% for grandchild_link in child_link.links %}
+                                                        <li {% if grandchild_link.active %}class="active {% if grandchild_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+
+                    {% comment %}view rawnested-navi{% endcomment %}
+                    {% comment %}<li><a href="" class="menu__link">Vikings</a></li>{% endcomment %}
+                    {% comment %}<li><a href="" class="menu__link">Ancient Egypt</a></li>{% endcomment %}
+                    {% comment %}<li><a href="" class="menu__link">Celtics</a></li>{% endcomment %}
+                    {% comment %}<li><a href="" class="menu__link sale">SALE</a></li>{% endcomment %}
+                    <li>
+                        <a href="" class="menu__link">
+                            <img src="{{ 'search' | append: '.svg' | asset_url }}" alt="search">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu__link karzinka">
+                            <img src="{{ 'karzinka' | append: '.svg' | asset_url }}" alt="karzinka">
+                        </a>
+                        <div class="menu__link_span">8</div>
+                    </li>
+
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="karzinka__popup">
+            <div class="karzinka__head">
+                <div class="karzinka__head-chart">Cart (8 items)</div>
+                <div class="karzinka__head-clos">
+                    <img src="img/clos.png" alt="clos">
+                </div>
+            </div>
+
+            <div class="karzinka__body"></div>
+
+            <div class="karzinka__footer">
+                <div class="karzinka__footer-container">
+                    <div class="karzinka__footer-subtotal">
+                        <span class="subtotal">Subtotal</span>
+                        <span class="total-price"></span>
+                    </div>
+                    <div class="karzinka__footer-button">
+                        <button class="view-cart">View cart</button>
+                        <button class="proc-to-check">Proceed to checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="menu__popup">
+    <div class="popup__menu-container">
+        <div class="popup__menu-head">
+            <img src="img/mob/clos.svg" alt="clos">
+        </div>
+        <div class="popup__menu-body">
+            <ul class="popup__menu-list">
+                <li class="popup__menu-link">
+                    <input type="text" placeholder="Type your search">
+                    <span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="9.23898" cy="9.23898" r="8.73898" stroke="#ffffff"/>
+                            <line x1="15.7519" y1="15.0447" x2="24.3536" y2="23.6464" stroke="#ffffff"/>
+                        </svg></span>
+                </li>
+                <li class="popup__menu-link"><a href="">Vikings</a></li>
+                <li class="popup__menu-link"><a href="">Ancient Egypt</a></li>
+                <li class="popup__menu-link"><a href="">Celtics</a></li>
+                <li class="popup__menu-link"><a href="">SALE</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+    {
+        "name": "Header",
+        "settings": [
+            {
+                "type": "link_list",
+                "id": "main_menu_link_list",
+                "label": "Menu",
+                "default": "main-menu",
+                "info": "The menu will collapse into a menu button if links are too long. [Learn more](https://help.shopify.com/manual/using-themes/themes-by-shopify/brooklyn#navigation-tips-tips-specific)"
+            },
+            {
+                "type": "color",
+                "id": "background",
+                "label": "Background",
+                "default": "#ffffff"
+            },
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo"
+            },
+            {
+                "type": "range",
+                "id": "logo_max_width",
+                "label": "Custom logo width",
+                "min": 150,
+                "max": 272,
+                "step": 2,
+                "unit": "px",
+                "default": 180
+            },
+            {
+                "type": "range",
+                "id": "logo_max_height",
+                "label": "Custom logo height",
+                "min": 10,
+                "max": 60,
+                "step": 2,
+                "unit": "px",
+                "default": 32
+            }
+        ]
+    }
+{% endschema %}

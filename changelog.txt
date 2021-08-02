@@ -1,0 +1,11 @@
+
+## [0.0.1] - 2021-08-03
+### Added
+-- header.liquid
+-- main-page.liquid
+-- product.liquid
+-- style.css
+-- main.js
+
+
+[0.0.1]: https://github.com/George-LLC/shpify-test.git/v0.0.1

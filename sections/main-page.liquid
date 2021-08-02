@@ -1,0 +1,73 @@
+<div class="main">
+	<div class="main__container">
+		<div class="main__left" style="background: linear-gradient(90deg, {{ section.settings.main_background_color | color_modify: 'alpha', 0 }} 0%, {{ section.settings.main_background_color | color_darken: 0.4 }} 30.57%);"></div>
+		<div class="main__img">
+			<img src="{{ section.settings.main_background_img | img_url: '741x520' }}" alt="background image">
+			<div class="main__title">
+				<div class="main__title_header" style="color: {{ section.settings.text_color }}">{{ section.settings.main_text }}</div>
+				<div class="main__title_price">$19.95 <span class="main__title_procent">$29.95</span></div>
+				<div class="main__title_button">
+					<button style="background-color: {{ section.settings.button_background_color }}; color: {{ section.settings.button_text_color }}; border-color: {{ section.settings.button_border_color }}">{{ section.settings.text_button }}</button>
+				</div>
+			</div>
+		</div>
+		<div class="main__rigth" style="background: linear-gradient(90deg, {{ section.settings.main_background_color | color_modify: 'alpha', 0 }} 0%, {{ section.settings.main_background_color | color_darken: 0.4 }} 30.57%);"></div>
+	</div>
+</div>
+
+
+{% schema %}
+	{
+		"name": "Main",
+		"settings": [
+			{
+				"type": "image_picker",
+				"id": "main_background_img",
+				"label": "Change background image"
+			},
+			{
+				"type": "color",
+				"id": "main_background_color",
+				"label": "Change background color",
+				"default": "#141925"
+			},
+			{
+				"type": "text",
+				"id": "main_text",
+				"label": "Button text",
+				"default": "Fenrir The Monster Wolf of Norse Mythology Necklace",
+				"info": "simvolneri tiv 32"
+			},
+			{
+				"type": "color",
+				"id": "text_color",
+				"label": "Text color",
+				"default": "#ffffff"
+			},
+			{
+				"type": "text",
+				"id": "text_button",
+				"label": "Main title text",
+				"default": "Start Shopping"
+			},
+			{
+				"type": "color",
+				"id": "button_background_color",
+				"label": "Button background color",
+				"default": "#CC0000"
+			},
+			{
+				"type": "color",
+				"id": "button_text_color",
+				"label": "Button text color",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "button_border_color",
+				"label": "Button border color",
+				"default": "#CC0000"
+			}
+		]
+	}
+{% endschema %}
